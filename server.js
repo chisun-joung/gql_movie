@@ -1,5 +1,8 @@
 import { ApolloServer, gql } from "apollo-server";
 import fetch from "node-fetch";
+import * as dotenv from "dotenv";
+dotenv.config();
+const API_KEY = process.env.API_KEY;
 
 let tweets = [
   {
@@ -128,14 +131,14 @@ const resolvers = {
     allUsers: () => users,
     allMovies: () => {
       return fetch(
-        "https://api.themoviedb.org/3/movie/top_rated?api_key={api_key}&language=en-US&page=1"
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`
       )
         .then((res) => res.json())
         .then((res) => res.results);
     },
     movie: (root, { id }) => {
       return fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key={api_key}&language=en-US`
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
       )
         .then((res) => res.json())
         .then((res) => res);
